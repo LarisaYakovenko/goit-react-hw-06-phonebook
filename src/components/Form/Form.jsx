@@ -1,8 +1,14 @@
 import { useState } from 'react';
-import PropTypes from 'prop-types';
 import css from './Form.module.css';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
+import { useSelector, useDispatch } from 'react-redux';
+import { addContact } from '../../redux/contactSlice';
 
-export const Form = ({ onSubmit }) => {
+const getContacts = state => state.contacts;
+
+export const Form = () => {
+  const contacts = useSelector(getContacts);
+  const dispatch = useDispatch();
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
@@ -11,14 +17,37 @@ export const Form = ({ onSubmit }) => {
     setNumber('');
   };
 
-  //   resetForm = () => {
-  //     this.setState({ name: '', number: ''})
-  //   };
+  // resetForm = () => {
+  //   this.setState({ name: '', number: '' });
+  // };
+  // const normalizedName = name.toLowerCase();
+
+  dispatch(addContact({ name, number }));
+  setName('');
+  setNumber('');
+
+  // const initialValues = {
+  //   name: '',
+  //   number: '',
+  // };
 
   const handleSubmit = e => {
     e.preventDefault();
-    const data = { name, number };
-    onSubmit(data);
+    // const data = { name, number };
+    const isAdded = contacts.find(
+      el => el.name.toLowerCase() === name.toLowerCase()
+    );
+
+    if (isAdded) {
+      Notify.warning(`${name}: is already in contacts`, {
+        width: '400px',
+        position: 'center-center',
+        timeout: 3000,
+        fontSize: '20px',
+      });
+      return;
+    }
+
     resetForm();
   };
 
@@ -42,13 +71,17 @@ export const Form = ({ onSubmit }) => {
     }
   };
 
-  //   hendleChange = e => {
-  //     const {value, name} = e.currentTarget;
-  //     this.setState({[name]: value})
-  //   };
+  // hendleChange = e => {
+  //   const { value, name } = e.currentTarget;
+  //   this.setState({ [name]: value });
+  // };
 
   return (
-    <form className={css.form} onSubmit={handleSubmit}>
+    <form
+      className={css.form}
+      // initialValues={initialValues}
+      onSubmit={handleSubmit}
+    >
       <label className={css.label}>
         Name
         <input
@@ -78,8 +111,4 @@ export const Form = ({ onSubmit }) => {
       </button>
     </form>
   );
-};
-
-Form.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
 };
