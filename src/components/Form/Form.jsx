@@ -17,23 +17,8 @@ export const Form = () => {
     setNumber('');
   };
 
-  // resetForm = () => {
-  //   this.setState({ name: '', number: '' });
-  // };
-  // const normalizedName = name.toLowerCase();
-
-  dispatch(addContact({ name, number }));
-  setName('');
-  setNumber('');
-
-  // const initialValues = {
-  //   name: '',
-  //   number: '',
-  // };
-
   const handleSubmit = e => {
     e.preventDefault();
-    // const data = { name, number };
     const isAdded = contacts.find(
       el => el.name.toLowerCase() === name.toLowerCase()
     );
@@ -47,15 +32,10 @@ export const Form = () => {
       });
       return;
     }
+    dispatch(addContact({ name, number }));
 
     resetForm();
   };
-
-  //   handleSubmit = e => {
-  //     e.preventDefault();
-  //     this.props.onSubmit(this.state);
-  //     this.resetForm();
-  //   };
 
   const hendleChange = e => {
     const { value, name } = e.currentTarget;
@@ -71,17 +51,8 @@ export const Form = () => {
     }
   };
 
-  // hendleChange = e => {
-  //   const { value, name } = e.currentTarget;
-  //   this.setState({ [name]: value });
-  // };
-
   return (
-    <form
-      className={css.form}
-      // initialValues={initialValues}
-      onSubmit={handleSubmit}
-    >
+    <form className={css.form} onSubmit={handleSubmit}>
       <label className={css.label}>
         Name
         <input

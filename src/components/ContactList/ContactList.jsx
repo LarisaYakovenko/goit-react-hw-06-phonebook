@@ -17,33 +17,12 @@ export const ContactList = () => {
   };
 
   const filterContacts = getFilteredContacts();
-  // const addContact = contact => {
-  //   dispatch(addContact(contact));
-  // };
 
   return (
     <ul className={css.list}>
       {filterContacts.map(contact => (
-        <ContactListItem
-          key={contact.id}
-          contact={contact}
-          // onDeleteContact={onDeleteContact}
-        />
+        <ContactListItem key={contact.id} contact={contact} />
       ))}
     </ul>
   );
 };
-
-// export const ContactList = ({ filterContacts, onDeleteContact }) => {
-//   return (
-//     <ul className={css.list}>
-//       {filterContacts.map(contact => (
-//         <ContactListItem
-//           key={contact.id}
-//           contact={contact}
-//           onDeleteContact={onDeleteContact}
-//         />
-//       ))}
-//     </ul>
-//   );
-// };
