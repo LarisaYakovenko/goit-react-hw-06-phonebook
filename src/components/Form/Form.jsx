@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import css from './Form.module.css';
+import { nanoid } from '@reduxjs/toolkit';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { useSelector, useDispatch } from 'react-redux';
 import { addContact } from '../../redux/contactSlice';
@@ -17,6 +18,9 @@ export const Form = () => {
     setNumber('');
   };
 
+  const generetedId = () => {
+    return nanoid(5);
+  };
   const handleSubmit = e => {
     e.preventDefault();
     const isAdded = contacts.find(
@@ -32,7 +36,7 @@ export const Form = () => {
       });
       return;
     }
-    dispatch(addContact({ name, number }));
+    dispatch(addContact({ id: generetedId(), name: name, number: number }));
 
     resetForm();
   };
